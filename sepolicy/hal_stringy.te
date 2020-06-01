@@ -1,0 +1,40 @@
+hal_attribute(stringy)
+
+type hal_stringy_hwservice, hwservice_manager_type;
+
+###
+# The HIDL stringy attribute defines the _server and _client
+#
+binder_call(hal_stringy_client, hal_stringy_server)
+binder_call(hal_stringy_server, hal_stringy_client)
+
+hal_attribute_hwservice(hal_stringy, hal_stringy_hwservice)
+
+####
+# Create an execution domain for the service hosting the server side
+#
+type hal_stringy_default, domain;
+hal_server_domain(hal_stringy_default, hal_stringy)
+
+type hal_stringy_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_stringy_default)
+
+allow hal_stringy_default hal_stringy_hwservice:hwservice_manager find;
+
+###
+# Create an execution domain for stringycl which is able to access the service
+#
+type stringycl, domain;
+hal_client_domain(stringycl, hal_stringy)
+
+type stringycl_exec, exec_type, vendor_file_type, file_type;
+
+domain_auto_trans(shell, stringycl_exec, stringycl)
+allow shell stringycl_exec:file { getattr open read execute map };
+
+# Allow `adb shell /vendor/bin/stringycl` and `adb shell` then `/vendor/bin/stringycl`
+allow stringycl shell:fd use;
+allow stringycl adbd:fd use;
+allow stringycl adbd:process sigchld;
+allow stringycl adbd:unix_stream_socket { getattr ioctl read write };
+allow stringycl devpts:chr_file rw_file_perms;

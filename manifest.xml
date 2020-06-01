@@ -174,4 +174,13 @@
         <instance>default</instance>
         </interface>
     </hal>
+    <hal format="hidl">
+        <name>vendor.acme.one.stringy</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+            <interface>
+            <name>IStringy</name>
+        <instance>default</instance>
+        </interface>
+    </hal>
 </manifest>

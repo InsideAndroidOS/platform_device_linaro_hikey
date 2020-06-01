@@ -12,6 +12,8 @@ BOARD_KERNEL_CMDLINE := androidboot.hardware=hikey960 firmware_class.path=/vendo
 BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/ff3b0000.ufs
 BOARD_KERNEL_CMDLINE += loglevel=15
 
+BOARD_KERNEL_CMDLINE += video=HDMI-A-1:1920x1080@60
+
 ifeq ($(TARGET_BUILTIN_EDID), true)
 BOARD_KERNEL_CMDLINE += drm_kms_helper.edid_firmware=edid/1920x1080.bin
 endif
