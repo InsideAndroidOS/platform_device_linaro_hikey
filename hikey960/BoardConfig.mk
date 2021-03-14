@@ -1,5 +1,11 @@
 include device/linaro/hikey/BoardConfigCommon.mk
 
+# Extend the device manifest file (for Acme One HIDL)
+ifeq (acme_one, $(TARGET_PRODUCT))
+$(warning Including Acme One HIDL manifest)
+DEVICE_MANIFEST_FILE += device/acme/one/manifest.xml
+endif
+
 TARGET_BOOTLOADER_BOARD_NAME := hikey960
 TARGET_BOARD_PLATFORM := hikey960
 
